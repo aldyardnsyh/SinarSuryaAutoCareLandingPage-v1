@@ -1,0 +1,128 @@
+---
+// src/layouts/BaseLayout.astro — <head>, SEO meta, JSON-LD, font loading
+import '@fontsource/barlow-condensed/400.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '../styles/tokens.css';
+import { SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = Astro.site ?? SITE.domain;
+const ogImage = `${SITE.domain}/og-image.jpg`;
+
+// Structured data: AutoRepair
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoRepair',
+  '@id': `${SITE.domain}/#business`,
+  name: SITE.name,
+  description:
+    'Bengkel mobil dan cuci hidrolik di Bojongsoang, Kabupaten Bandung. Servis rutin, ganti oli, service AC, kaki-kaki, kelistrikan, cuci mobil hidrolik, steam wash.',
+  url: `${SITE.domain}/`,
+  telephone: SITE.phoneIntl,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    addressLocality: 'Bojongsoang',
+    addressRegion: 'Jawa Barat',
+    postalCode: SITE.address.postalCode,
+    addressCountry: 'ID',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: SITE.geo.lat, longitude: SITE.geo.lng },
+  logo: `${SITE.domain}/favicon.svg`,
+  image: [ogImage],
+  hasMap: SITE.gmapsShare,
+  areaServed: ['Bojongsoang', 'Dayeuhkolot', 'Baleendah', 'Buahbatu', 'Bandung Selatan', 'Kabupaten Bandung'],
+  openingHoursSpecification: [
+    {
+      // Servis & perbaikan: Senin sampai Sabtu saja (Minggu tutup)
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '07:00',
+      closes: '17:00',
+    },
+    {
+      // Cuci hidrolik: buka setiap hari, jam Minggu berbeda
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Sunday'],
+      opens: '08:00',
+      closes: '14:00',
+    },
+  ],
+  priceRange: '$$',
+  image: ogImage,
+  sameAs: [SITE.social.facebook, SITE.social.instagram].filter(Boolean),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Layanan Sinar Surya Auto Care',
+    itemListElement: [
+      'Servis Rutin & Tune Up',
+      'Ganti Oli & Filter',
+      'Service AC Mobil',
+      'Kaki-kaki & Rem',
+      'Kelistrikan & Aki',
+      'Cuci Mobil Hidrolik',
+      'Steam Wash Interior',
+      'Vacuum & Detailing',
+    ].map((nama) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: nama },
+    })),
+  },
+};
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph / WhatsApp share -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content="Sinar Surya Auto Care | Bengkel Mobil & Cuci Hidrolik Bojongsoang" />
+    <meta property="og:description" content="Servis rutin, perbaikan, hingga cuci mobil hidrolik di Bojongsoang, Kab. Bandung." />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Sinar Surya Auto Care, bengkel mobil dan cuci hidrolik di Bojongsoang" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sinar Surya Auto Care | Bengkel Mobil & Cuci Hidrolik Bojongsoang" />
+    <meta name="twitter:description" content="Servis rutin, perbaikan, hingga cuci mobil hidrolik di Bojongsoang, Kab. Bandung." />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#1E2228" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/og-image.jpg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Material Symbols (ikon saja, satu font ringan) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
