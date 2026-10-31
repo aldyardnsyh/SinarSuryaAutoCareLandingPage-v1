@@ -89,7 +89,7 @@ Data diambil langsung dari listing resmi Google Maps:
 | Data | Nilai |
 |---|---|
 | Alamat | Jl. Cijagra No. 8, Bojongsoang, Kec. Bojongsoang, Kab. Bandung, Jawa Barat 40288 |
-| Telepon / WhatsApp | 022-7502999 |
+| Telepon / WhatsApp (aktif) | 0812-2022-203 |
 | Jam buka | Setiap hari 07.00 – 17.00 WIB |
 | Rating Google | 4,7 (96 ulasan) |
 | Koordinat pin | -6.9848264, 107.6329325 |
@@ -106,8 +106,9 @@ teks yang bisa diambil otomatis. Tambahkan ulasan lain secara manual di
 
 ## ⚠️ Sebelum rilis — data yang WAJIB dikonfirmasi ke client
 
-1. **Nomor WhatsApp** — saat ini mengarah ke telepon kantor `022-7502999`. Jika bengkel
-   punya nomor HP aktif untuk WA, ubah di `src/data/site.ts` → `whatsapp` (format `62xxx`).
+1. **Nomor telepon/WA aktif** — sudah memakai nomor dari client: `0812-2022-203`.
+   Nomor lama `022-7502999` (masih tampil di listing Google Maps) sudah tidak aktif;
+   segera perbarui Profil Bisnis Google agar NAP konsisten dengan website.
 2. **Jam operasional** — 07.00–17.00 dari listing GMaps, konfirmasi ulang.
 3. **Domain final** — samakan `site` di `astro.config.mjs` dan `domain` di `site.ts`.
 4. **Ulasan** — slider menampilkan 4 ulasan asli yang terekspos publik; minta client

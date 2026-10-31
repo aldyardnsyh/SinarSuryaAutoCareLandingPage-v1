@@ -1,6 +1,6 @@
 ---
 // CTA band penutup (merah): WhatsApp + telepon.
-import { waLink } from '../data/site';
+import { SITE, waLink } from '../data/site';
 ---
 
 <section class="cta-band" aria-labelledby="cta-title">
@@ -26,9 +26,9 @@ import { waLink } from '../data/site';
         </svg>
         Chat WhatsApp Sekarang
       </a>
-      <a class="btn-white btn" href="tel:+62227502999">
+      <a class="btn-white btn" href={`tel:${SITE.phoneIntl}`}>
         <span class="material-symbols-outlined" aria-hidden="true">call</span>
-        Hubungi 022-7502999
+        Hubungi {SITE.phoneDisplay}
       </a>
     </div>
   </div>
