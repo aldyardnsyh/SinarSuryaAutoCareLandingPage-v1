@@ -36,14 +36,14 @@ import { SITE, waLink } from '../data/site';
               href={waLink('Mau tanya-tanya dulu soal layanan bengkelnya.')}
               target="_blank"
               rel="noopener"
-              class="strong">WhatsApp {SITE.phoneDisplay}</a
+              class="strong">WhatsApp {SITE.whatsappDisplay}</a
             >
           </li>
           <li>
             <span class="material-symbols-outlined ic-amber" aria-hidden="true">build</span>
             <p>
               <span class="strong">Servis &amp; Perbaikan:</span> Senin – Sabtu 07.00 – 17.00
-              <span class="mini-chip" id="chip-servis">
+              <span class="mini-chip" id="jam-chip-servis">
                 <span class="mini-dot" aria-hidden="true"></span><span class="mini-text">Memuat…</span>
               </span>
             </p>
@@ -53,7 +53,7 @@ import { SITE, waLink } from '../data/site';
             <p>
               <span class="strong">Cuci Hidrolik &amp; Steam:</span> Senin – Sabtu 07.00 – 17.00,
               Minggu 08.00 – 14.00
-              <span class="mini-chip" id="chip-cuci">
+              <span class="mini-chip" id="jam-chip-cuci">
                 <span class="mini-dot" aria-hidden="true"></span><span class="mini-text">Memuat…</span>
               </span>
             </p>
@@ -331,8 +331,8 @@ import { SITE, waLink } from '../data/site';
   function perbarui(): void {
     const s = hitungStatus();
     for (const [id, buka, teks] of [
-      ['chip-servis', s.servisBuka, s.servisStatus],
-      ['chip-cuci', s.cuciBuka, s.cuciStatus],
+      ['jam-chip-servis', s.servisBuka, s.servisStatus],
+      ['jam-chip-cuci', s.cuciBuka, s.cuciStatus],
     ] as const) {
       const el = document.getElementById(id);
       if (!el) continue;
