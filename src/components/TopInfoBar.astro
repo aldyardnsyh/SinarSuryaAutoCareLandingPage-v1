@@ -1,0 +1,155 @@
+---
+// Strip tipis charcoal paling atas: lokasi, jam realtime device, status buka/tutup
+// per layanan (Servis vs Cuci), dan telepon.
+// Status dihitung dari waktu device pengunjung dan diperbarui tiap 30 detik.
+import { SITE } from '../data/site';
+---
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-item topbar-loc">
+      <span class="material-symbols-outlined">location_on</span>
+      <span>{SITE.address.street}, Bojongsoang, Kab. Bandung</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-item topbar-clock" title="Waktu di perangkat Anda">
+        <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+        <span id="live-clock" aria-live="off">--:--</span>
+      </div>
+      <span class="hide-mobile sep" aria-hidden="true">•</span>
+      <div class="chips hide-mobile" id="status-chips" aria-label="Status buka per layanan">
+        <span class="chip" id="chip-servis">
+          <span class="chip-dot" aria-hidden="true"></span>
+          <span class="chip-text">Servis</span>
+        </span>
+        <span class="chip" id="chip-cuci">
+          <span class="chip-dot" aria-hidden="true"></span>
+          <span class="chip-text">Cuci</span>
+        </span>
+      </div>
+      <span class="hide-mobile sep" aria-hidden="true">•</span>
+      <a class="topbar-item topbar-tel" href={`tel:${SITE.phoneIntl}`}>
+        <span class="material-symbols-outlined">call</span>
+        <span>{SITE.phoneDisplay}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--color-dark);
+    color: #edf1f9;
+    font-size: 13px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    gap: 1rem;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .topbar-item .material-symbols-outlined {
+    font-size: 16px;
+    color: #ffb955;
+  }
+  .topbar-clock {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .chips {
+    display: flex;
+    gap: 6px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    background: rgba(237, 241, 249, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .chip-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #9ca3af;
+  }
+  .chip.open .chip-dot {
+    background: #2ee06f;
+    box-shadow: 0 0 0 2px rgba(46, 224, 111, 0.25);
+  }
+  .chip.closed .chip-dot {
+    background: #ff8a5c;
+  }
+  .topbar-tel {
+    color: inherit;
+    text-decoration: none;
+  }
+  .topbar-tel:hover {
+    color: #ffb955;
+  }
+  .sep {
+    color: #6b7280;
+  }
+  @media (max-width: 639px) {
+    .hide-mobile {
+      display: none;
+    }
+  }
+  @media (max-width: 479px) {
+    .topbar-loc {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { hitungStatus } from '../data/site';
+
+  const clock = document.getElementById('live-clock');
+  const chipServis = document.getElementById('chip-servis');
+  const chipCuci = document.getElementById('chip-cuci');
+
+  function perbarui(): void {
+    const now = new Date();
+    if (clock) {
+      clock.textContent = now.toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    }
+    const s = hitungStatus(now);
+    if (chipServis) {
+      chipServis.classList.toggle('open', s.servisBuka);
+      chipServis.classList.toggle('closed', !s.servisBuka);
+      chipServis.querySelector('.chip-text')!.textContent = s.servisChip;
+      chipServis.setAttribute('title', s.servisStatus);
+    }
+    if (chipCuci) {
+      chipCuci.classList.toggle('open', s.cuciBuka);
+      chipCuci.classList.toggle('closed', !s.cuciBuka);
+      chipCuci.querySelector('.chip-text')!.textContent = s.cuciChip;
+      chipCuci.setAttribute('title', s.cuciStatus);
+    }
+  }
+
+  perbarui();
+  setInterval(perbarui, 30000);
+</script>
