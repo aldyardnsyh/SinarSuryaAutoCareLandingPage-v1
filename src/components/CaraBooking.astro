@@ -1,0 +1,100 @@
+---
+// Cara Booking: 3 langkah bernomor, terhubung garis putus-putus di desktop.
+import { CARA_BOOKING } from '../data/layanan';
+---
+
+<section class="booking" aria-labelledby="booking-title">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Alur Pengerjaan</span>
+      <h2 class="headline-lg" id="booking-title">Cara Booking &amp; Servis</h2>
+      <span class="accent-bar" aria-hidden="true"></span>
+    </div>
+
+    <div class="steps">
+      <div class="dashed" aria-hidden="true"></div>
+      {
+        CARA_BOOKING.map((s) => (
+          <div class="step">
+            <span class="step-num">{s.nomor}</span>
+            <h3>{s.judul}</h3>
+            <p>{s.deskripsi}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .booking {
+    padding-block: var(--section-py);
+    background: var(--color-card);
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+  .steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .step {
+    position: relative;
+    z-index: 1;
+    background: #f0f4fb;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .step-num {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-card);
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-1);
+  }
+  .step h3 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .step p {
+    margin: 0;
+    line-height: 1.7;
+  }
+  .dashed {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .dashed {
+      display: block;
+      position: absolute;
+      z-index: 0;
+      top: 40px;
+      left: 17%;
+      right: 17%;
+      height: 0;
+      border-top: 2px dashed #dee3ea;
+    }
+  }
+</style>
