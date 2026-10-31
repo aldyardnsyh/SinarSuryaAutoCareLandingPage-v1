@@ -1,0 +1,42 @@
+---
+// Halaman utama — komposisi semua section halaman.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopInfoBar from '../components/TopInfoBar.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import TentangKami from '../components/TentangKami.astro';
+import Layanan from '../components/Layanan.astro';
+import TanyaHargaCTA from '../components/TanyaHargaCTA.astro';
+import CaraBooking from '../components/CaraBooking.astro';
+import Testimoni from '../components/Testimoni.astro';
+import FAQ from '../components/FAQ.astro';
+import Galeri from '../components/Galeri.astro';
+import KontakLokasi from '../components/KontakLokasi.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+---
+
+<BaseLayout
+  title="Bengkel Mobil &amp; Cuci Hidrolik Bojongsoang, Bandung | Sinar Surya Auto Care"
+  description="Bengkel mobil & cuci hidrolik di Jl. Cijagra No. 8, Bojongsoang, Bandung Selatan. Servis rutin, ganti oli, AC, kaki-kaki, sampai steam wash. Info harga via WhatsApp."
+>
+  <TopInfoBar />
+  <Navbar />
+
+  <main>
+    <Hero />
+    <TentangKami />
+    <Layanan />
+    <TanyaHargaCTA />
+    <CaraBooking />
+    <Testimoni />
+    <FAQ />
+    <Galeri />
+    <KontakLokasi />
+    <CtaBand />
+  </main>
+
+  <Footer />
+  <WhatsAppFloat />
+</BaseLayout>
