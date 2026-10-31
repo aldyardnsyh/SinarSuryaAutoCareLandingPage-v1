@@ -1,0 +1,206 @@
+---
+// Layanan: dua grup berdampingan (Servis & Perbaikan, Cuci Hidrolik & Steam).
+// Tanpa harga — setiap kartu diarahkan ke WhatsApp.
+import { LAYANAN, type Layanan } from '../data/layanan';
+import { waLink } from '../data/site';
+
+const grupServis = LAYANAN.filter((l: Layanan) => l.group === 'servis');
+const grupCuci = LAYANAN.filter((l: Layanan) => l.group === 'cuci');
+---
+
+<section class="layanan" id="layanan">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Layanan Kami</span>
+      <h2 class="headline-lg">Apa Saja yang Kami Kerjakan?</h2>
+      <span class="accent-bar" aria-hidden="true"></span>
+    </div>
+
+    <div class="groups">
+      <div class="group">
+        <div class="group-head">
+          <span class="group-dot dot-servis" aria-hidden="true"></span>
+          <h3>Servis &amp; Perbaikan Mekanikal</h3>
+        </div>
+        {
+          grupServis.map((l) => (
+            <article class="card">
+              <span class="card-icon icon-servis">
+                <span class="material-symbols-outlined" aria-hidden="true">{l.ikon}</span>
+              </span>
+              <div class="card-body">
+                <h4>{l.nama}</h4>
+                <p>{l.deskripsi}</p>
+                <a
+                  class="card-link link-servis"
+                  href={waLink(l.waMessage)}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Tanya estimasi ${l.nama} via WhatsApp`}
+                >
+                  Tanya harga via WhatsApp
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <span class="group-dot dot-cuci" aria-hidden="true"></span>
+          <h3>Cuci Hidrolik &amp; Steam Detailing</h3>
+        </div>
+        {
+          grupCuci.map((l) => (
+            <article class="card">
+              <span class="card-icon icon-cuci">
+                <span class="material-symbols-outlined" aria-hidden="true">{l.ikon}</span>
+              </span>
+              <div class="card-body">
+                <h4>{l.nama}</h4>
+                <p>{l.deskripsi}</p>
+                <a
+                  class="card-link link-cuci"
+                  href={waLink(l.waMessage)}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Tanya ${l.nama} via WhatsApp`}
+                >
+                  Tanya harga via WhatsApp
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layanan {
+    padding-block: var(--section-py);
+    background: var(--color-bg-light);
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+  .groups {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .group-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .group-head h3 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .group-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-servis {
+    background: var(--color-primary);
+  }
+  .dot-cuci {
+    background: var(--color-water);
+  }
+  .card {
+    background: var(--color-card);
+    padding: 24px;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    border: 1px solid var(--color-border);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover,
+  .card:focus-within {
+    box-shadow: var(--shadow-2);
+    transform: translateY(-2px);
+  }
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-icon .material-symbols-outlined {
+    font-size: 24px;
+  }
+  .icon-servis {
+    background: rgba(179, 32, 44, 0.1);
+    color: var(--color-primary);
+  }
+  .icon-cuci {
+    background: #e0f2fe;
+    color: var(--color-water);
+  }
+  .card-body h4 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .card-body p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .card-link .material-symbols-outlined {
+    font-size: 16px;
+    transition: transform 0.15s;
+  }
+  .card-link:hover .material-symbols-outlined {
+    transform: translateX(3px);
+  }
+  .link-servis {
+    color: var(--color-primary);
+  }
+  .link-servis:hover {
+    color: var(--color-primary-dark);
+  }
+  .link-cuci {
+    color: var(--color-water);
+  }
+  .link-cuci:hover {
+    color: #075985;
+  }
+
+  @media (min-width: 1024px) {
+    .groups {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
