@@ -6,10 +6,12 @@ export const SITE = {
   name: 'Sinar Surya Auto Care',
   shortName: 'SSAC',
   tagline: 'Bengkel Mobil & Cuci Hidrolik',
-  // Nomor resmi bengkel dari listing Google Maps. WhatsApp juga ke nomor ini.
+  // Telepon kantor dari listing Google Maps (untuk tombol telepon).
   phoneDisplay: '022-7502999',
   phoneIntl: '+62227502999',
-  whatsapp: '62227502999',
+  // Nomor aktif dari client (31 Okt 2026): dipakai untuk semua chat WhatsApp.
+  whatsapp: '628122022203',
+  whatsappDisplay: '0812-2022-203',
   address: {
     street: 'Jl. Cijagra No. 8',
     detail: 'Bojongsoang, Kec. Bojongsoang, Kab. Bandung, Jawa Barat',
