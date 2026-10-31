@@ -1,0 +1,436 @@
+---
+// Testimoni — ulasan asli dari Google Maps (src/data/testimoni.ts).
+// Slider scroll-snap dengan auto-rotasi ringan (pause saat hover/fokus)
+// dan link ke daftar lengkap ulasan di Google Maps.
+import { SITE } from '../data/site';
+import { TESTIMONI } from '../data/testimoni';
+---
+
+<section class="testimoni">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Testimoni</span>
+      <h2 class="headline-lg">Kata Pelanggan Kami</h2>
+      <span class="accent-bar" aria-hidden="true"></span>
+    </div>
+
+    <div class="slider-wrap">
+      <div class="track" id="testi-track" aria-label="Ulasan pelanggan" tabindex="0">
+        <!-- Kartu 0: ringkasan rating Google -->
+        <article class="card summary">
+          <span class="score">{SITE.rating.score}</span>
+          <span class="stars" role="img" aria-label={`Rating rata-rata ${SITE.rating.score} dari 5`}>
+            {
+              Array.from({ length: 5 }).map(() => (
+                <span class="material-symbols-outlined star" aria-hidden="true">
+                  star
+                </span>
+              ))
+            }
+          </span>
+          <p class="summary-text">{SITE.rating.count} ulasan di Google Maps</p>
+          <a
+            class="summary-link"
+            href={SITE.gmapsShare}
+            target="_blank"
+            rel="noopener"
+          >
+            Lihat semua ulasan
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+        </article>
+
+        {
+          TESTIMONI.map((t) => (
+            <article class="card">
+              <span
+                class="stars"
+                role="img"
+                aria-label={`Rating ${t.rating} dari 5 bintang`}
+              >
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    class:list={['material-symbols-outlined', 'star', { 'star-off': i >= t.rating }]}
+                    aria-hidden="true"
+                  >
+                    star
+                  </span>
+                ))}
+              </span>
+              <blockquote>“{t.quote}”</blockquote>
+              <figcaption>
+                <span class="avatar" aria-hidden="true">{t.nama.charAt(0)}</span>
+                <span class="who">
+                  <span class="nama">{t.nama}</span>
+                  <span class="ket">Ulasan Google Maps</span>
+                </span>
+              </figcaption>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="nav">
+        <button type="button" class="nav-btn" data-dir="-1" aria-label="Ulasan sebelumnya">
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+        </button>
+        <div class="dots" id="testi-dots" aria-hidden="true"></div>
+        <button type="button" class="nav-btn" data-dir="1" aria-label="Ulasan berikutnya">
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </button>
+      </div>
+
+      <div class="review-cta">
+        <p>
+          Sudah pernah dilayani di sini? Ulasan Anda membantu bengkel kami terus tumbuh dan
+          membantu pemilik mobil lain menemukan kami.
+        </p>
+        <a class="review-btn" href={SITE.gmapsShare} target="_blank" rel="noopener">
+          <span class="material-symbols-outlined" aria-hidden="true">rate_review</span>
+          Tulis ulasan di Google Maps
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimoni {
+    padding-block: var(--section-py);
+    background: var(--color-bg-light);
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .slider-wrap {
+    position: relative;
+  }
+  .track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-block: 4px;
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .card {
+    flex: 0 0 min(340px, 82vw);
+    scroll-snap-align: start;
+    background: var(--color-card);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    border: 1px solid var(--color-border);
+    padding: 28px 24px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .stars {
+    display: flex;
+    gap: 2px;
+    color: var(--color-accent);
+  }
+  .star {
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    font-size: 20px;
+  }
+  .star-off {
+    color: #d8dce3;
+  }
+  blockquote {
+    margin: 0;
+    line-height: 1.7;
+    flex: 1;
+  }
+  figcaption {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e4e8f0;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .who {
+    display: flex;
+    flex-direction: column;
+  }
+  .nama {
+    font-weight: 700;
+    color: var(--color-dark);
+  }
+  .ket {
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+
+  /* Kartu ringkasan rating */
+  .summary {
+    background: var(--color-dark);
+    border-color: var(--color-dark);
+    color: #fff;
+    align-items: flex-start;
+  }
+  .score {
+    font-family: var(--font-heading);
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+  }
+  .summary-text {
+    margin: 0;
+    color: #c3c6ce;
+    font-size: 15px;
+  }
+  .summary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #ffddb4;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: auto;
+  }
+  .summary-link:hover {
+    text-decoration: underline;
+  }
+  .summary-link .material-symbols-outlined {
+    font-size: 16px;
+  }
+
+  /* Navigasi slider */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    color: var(--color-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .nav-btn:hover {
+    background: var(--color-bg-light);
+    border-color: #d1d5db;
+  }
+  .nav-btn .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .review-cta {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid #e2e6ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+  .review-cta p {
+    margin: 0;
+    max-width: 560px;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-btn);
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .review-btn:hover {
+    background: var(--color-primary-dark);
+    box-shadow: var(--shadow-2);
+  }
+  .review-btn .material-symbols-outlined {
+    font-size: 20px;
+  }
+  .dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #c6ccd6;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .dot.active {
+    transform: scale(1.15);
+  }
+  .dot.active {
+    background: var(--color-primary);
+  }
+</style>
+
+<script>
+  // Slider testimoni: scroll-snap + tombol + dots sesuai jumlah halaman scroll
+  // + auto-rotasi (pause saat hover/fokus).
+  const track = document.getElementById('testi-track') as HTMLElement | null;
+  const dotsWrap = document.getElementById('testi-dots') as HTMLElement | null;
+
+  let pages = 1;
+  let page = 0;
+
+  function hitungHalaman(): number {
+    if (!track) return 1;
+    const max = track.scrollWidth - track.clientWidth;
+    if (max <= 0) return 1;
+    return Math.round(max / track.clientWidth) + 1;
+  }
+
+  function bangunDots(): void {
+    if (!dotsWrap) return;
+    pages = hitungHalaman();
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < pages; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === page ? ' active' : '');
+      dotsWrap.appendChild(d);
+    }
+  }
+
+  function perbaruiDots(): void {
+    if (!track) return;
+    const max = track.scrollWidth - track.clientWidth;
+    page = max <= 0 ? 0 : Math.round((track.scrollLeft / max) * (pages - 1));
+    if (dotsWrap) {
+      Array.from(dotsWrap.children).forEach((d, i) =>
+        d.classList.toggle('active', i === page)
+      );
+    }
+  }
+
+  // Animasi geser halus berbasis rAF: andal di semua browser (behavior:'smooth'
+  // bawaan tidak selalu jalan), dengan easing ease-in-out.
+  let animId = 0;
+  function geserKe(targetLeft: number, durasi = 550): void {
+    if (!track) return;
+    cancelAnimationFrame(animId);
+    const max = track.scrollWidth - track.clientWidth;
+    const dari = track.scrollLeft;
+    const ke = Math.max(0, Math.min(max, targetLeft));
+    if (Math.abs(ke - dari) < 2) return;
+
+    const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (kurangiGerak) {
+      track.scrollLeft = ke;
+      return;
+    }
+
+    // Snap dinonaktifkan selama animasi agar tidak saling tarik, dipulihkan di akhir.
+    track.style.scrollSnapType = 'none';
+    const mulai = performance.now();
+    const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const langkah = (ts: number) => {
+      const p = Math.min(1, (ts - mulai) / durasi);
+      track.scrollLeft = dari + (ke - dari) * ease(p);
+      if (p < 1) {
+        animId = requestAnimationFrame(langkah);
+      } else {
+        track.style.scrollSnapType = '';
+      }
+    };
+    animId = requestAnimationFrame(langkah);
+  }
+
+  function keHalaman(target: number, durasi?: number): void {
+    if (!track) return;
+    geserKe(target * track.clientWidth, durasi);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.testimoni .nav-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!track) return;
+      const dir = Number(btn.dataset.dir);
+      let target = page + dir;
+      if (target < 0) target = pages - 1;
+      if (target > pages - 1) target = 0;
+      keHalaman(target);
+    });
+  });
+
+  if (dotsWrap) {
+    dotsWrap.addEventListener('click', (e) => {
+      const idx = Array.from(dotsWrap.children).indexOf(e.target as Element);
+      if (idx >= 0) keHalaman(idx);
+    });
+  }
+
+  track?.addEventListener('scroll', perbaruiDots, { passive: true });
+  window.addEventListener('resize', () => {
+    bangunDots();
+    perbaruiDots();
+  });
+
+  // Geseran manual pengguna membatalkan animasi agar tidak saling tarik.
+  function hentikanAnimasi(): void {
+    cancelAnimationFrame(animId);
+    if (track) track.style.scrollSnapType = '';
+  }
+  track?.addEventListener('touchstart', hentikanAnimasi, { passive: true });
+  track?.addEventListener('wheel', hentikanAnimasi, { passive: true });
+
+  bangunDots();
+  perbaruiDots();
+
+  // Auto-rotasi tiap 5 detik, berhenti saat pointer/fokus di atas slider.
+  if (track && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let paused = false;
+    const stop = () => (paused = true);
+    const start = () => (paused = false);
+    track.addEventListener('mouseenter', stop);
+    track.addEventListener('mouseleave', start);
+    track.addEventListener('focusin', stop);
+    track.addEventListener('focusout', start);
+    track.addEventListener('touchstart', stop, { passive: true });
+
+    setInterval(() => {
+      if (paused || !track || pages <= 1) return;
+      keHalaman(page + 1 > pages - 1 ? 0 : page + 1);
+    }, 5000);
+  }
+</script>
