@@ -1,0 +1,287 @@
+---
+// Footer charcoal 4 kolom + copyright bar.
+import { SITE, waLink } from '../data/site';
+import { LAYANAN } from '../data/layanan';
+
+const nav = [
+  { label: 'Beranda', href: '#beranda' },
+  { label: 'Tentang Kami', href: '#tentang' },
+  { label: 'Layanan', href: '#layanan' },
+  { label: 'Cara Booking', href: '#beranda' },
+  { label: 'Kontak', href: '#kontak' },
+];
+const layananFooter = [
+  'Servis Rutin & Tune Up',
+  'Ganti Oli & Filter',
+  'Service AC Mobil',
+  'Kaki-Kaki & Rem',
+  'Cuci Mobil Hidrolik',
+  'Steam Wash Interior',
+];
+---
+
+<footer class="footer">
+  <div class="container cols">
+    <div class="col">
+      <div class="brand">
+        <span class="brand-mark material-symbols-outlined" aria-hidden="true">wb_sunny</span>
+        <span class="brand-name">SSAC</span>
+      </div>
+      <p class="desc">
+        Bengkel mobil dan cuci hidrolik di Bojongsoang, Kab. Bandung. Melayani servis rutin,
+        perbaikan, sampai steam wash, semua dalam satu tempat.
+      </p>
+    </div>
+
+    <div class="col">
+      <span class="col-title">Navigasi Cepat</span>
+      <ul>
+        {
+          nav.map((n) => (
+            <li>
+              <span class="material-symbols-outlined chev" aria-hidden="true">chevron_right</span>
+              <a href={n.href}>{n.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="col">
+      <span class="col-title">Layanan Kami</span>
+      <ul>
+        {
+          layananFooter.map((l) => (
+            <li>
+              <span class="material-symbols-outlined chev" aria-hidden="true">build</span>
+              <span>{l}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="col">
+      <span class="col-title">Jam Operasional &amp; Kontak</span>
+      <div class="ops">
+        <div class="ops-row">
+          <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+          <div>
+            <p class="strong">{SITE.hours.days}</p>
+            <p>{SITE.hours.display}</p>
+          </div>
+        </div>
+        <div class="ops-row">
+          <span class="material-symbols-outlined" aria-hidden="true">pin_drop</span>
+          <p>{SITE.address.street}, Bojongsoang, Kab. Bandung</p>
+        </div>
+        <div class="ops-row">
+          <span class="material-symbols-outlined" aria-hidden="true">call</span>
+          <p>{SITE.phoneDisplay}</p>
+        </div>
+        <div class="ops-row">
+          <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+          <p>WhatsApp: <a href={waLink()} target="_blank" rel="noopener">{SITE.phoneDisplay}</a></p>
+        </div>
+      </div>
+      <div class="sosmed">
+        <a
+          href={SITE.social.facebook}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Facebook ${SITE.name}`}
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="soc-glyph">
+            <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07z"></path>
+          </svg>
+        </a>
+        <a
+          href={SITE.social.instagram}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Instagram ${SITE.name}`}
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="soc-glyph">
+            <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38A5.88 5.88 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13.67.66 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.88 5.88 0 0 0 2.13-1.38 5.88 5.88 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.88 5.88 0 0 0-1.38-2.13A5.88 5.88 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0z"></path>
+            <path d="M12 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.15A4 4 0 1 1 16 12a4 4 0 0 1-4 3.99zM19.85 5.59a1.44 1.44 0 1 1-1.44-1.44 1.44 1.44 0 0 1 1.44 1.44z"></path>
+          </svg>
+        </a>
+        <a
+          href={SITE.gmapsShare}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Lokasi ${SITE.name} di Google Maps`}
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">map</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="container">
+      © {new Date().getFullYear()} Sinar Surya Auto Care · Bojongsoang, Bandung. Hak Cipta
+      Dilindungi.
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-dark);
+    color: #edf1f9;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 64px 32px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .brand-name {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c3c6ce;
+    margin: 14px 0 0;
+  }
+  .verif {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    color: #ffb955;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .verif .material-symbols-outlined {
+    font-size: 18px;
+  }
+  .col-title {
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffddb4;
+    margin-bottom: 16px;
+    display: block;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+    color: #c3c6ce;
+  }
+  ul li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  ul a {
+    color: #c3c6ce;
+    text-decoration: none;
+  }
+  ul a:hover {
+    color: #fff;
+  }
+  .chev {
+    font-size: 14px;
+    color: #ffb955;
+  }
+  .ops {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: #c3c6ce;
+  }
+  .ops-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .ops-row .material-symbols-outlined {
+    font-size: 18px;
+    color: #ffb955;
+    flex-shrink: 0;
+  }
+  .ops-row p {
+    margin: 0;
+  }
+  .ops-row a {
+    color: inherit;
+  }
+  .strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  .sosmed {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .sosmed a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(228, 232, 240, 0.2);
+    color: #edf1f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .sosmed a:hover {
+    background: var(--color-primary);
+  }
+  .sosmed .material-symbols-outlined {
+    font-size: 18px;
+  }
+  .soc-glyph {
+    width: 16px;
+    height: 16px;
+  }
+  .bottom {
+    background: var(--color-dark-deep);
+    padding-block: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: #c3c6ce;
+  }
+
+  @media (min-width: 768px) {
+    .cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .cols {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
