@@ -36,7 +36,8 @@ npm run preview   # preview hasil build → http://localhost:4321
 - JSON-LD: `AutoRepair` (nama, alamat, koordinat, jam buka 2 spesifikasi, katalog 8 layanan,
   logo, hasMap, areaServed, sameAs FB/IG) + `FAQPage` (5 pertanyaan umum).
 - OG/Twitter card lengkap untuk kartu share di WhatsApp/FB/Twitter: judul, deskripsi, gambar
-  1200x630 (`public/og-image.jpg`, foto asli bengkel), `og:site_name`, `theme-color`.
+  1200x630 (`public/og-image.jpg`, kartu share branded: logo, nama, rating
+  Google, nomor aktif, domain), `og:site_name`, `theme-color`.
 - Keyword lokal yang ditarget (dari riset pencarian umum): bengkel mobil bojongsoang,
   cuci mobil bojongsoang, bengkel mobil terdekat, cuci mobil hidrolik bandung, bengkel
   mobil bandung selatan, ganti oli bojongsoang, service ac mobil, bengkel yang buka hari
