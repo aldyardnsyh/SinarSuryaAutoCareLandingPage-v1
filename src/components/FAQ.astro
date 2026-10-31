@@ -1,0 +1,130 @@
+---
+// FAQ: jawaban dibuat HANYA dari data yang sudah terverifikasi (jam buka,
+// lokasi, alur booking) agar tidak menampilkan klaim yang belum terverifikasi.
+// Pertanyaan mengikuti pola pencarian lokal umum: lokasi, jam Minggu, cara
+// booking, harga, dan daftar layanan.
+import { SITE } from '../data/site';
+
+const FAQ = [
+  {
+    q: 'Di mana lokasi Sinar Surya Auto Care?',
+    a: `Bengkel kami berada di ${SITE.address.street}, Bojongsoang, Kab. Bandung, mudah dijangkau dari Dayeuhkolot, Baleendah, Buahbatu, dan kawasan Bandung Selatan. Titik lokasi dan tombol rute tersedia di bagian kontak.`,
+  },
+  {
+    q: 'Apakah buka hari Minggu?',
+    a: 'Cuci hidrolik dan steam wash buka setiap hari, termasuk Minggu dengan jam 08.00 sampai 14.00. Sementara layanan servis dan perbaikan melayani Senin sampai Sabtu, 07.00 sampai 17.00.',
+  },
+  {
+    q: 'Bagaimana cara booking servis atau cuci mobil?',
+    a: 'Tinggal chat WhatsApp kami, kirim keluhan atau foto mobil Anda, tim kami bantu periksa lalu atur jadwal bersama. Panduan singkatnya ada di bagian Cara Booking & Servis di halaman ini.',
+  },
+  {
+    q: 'Berapa harga servis atau cuci mobilnya?',
+    a: 'Setiap kendaraan berbeda kondisi, jadi biayanya menyesuaikan. Kirim keluhan atau foto bagian mobil Anda lewat WhatsApp, kami periksa dulu lalu berikan estimasi sebelum pengerjaan dimulai.',
+  },
+  {
+    q: 'Layanan apa saja yang tersedia?',
+    a: 'Servis rutin dan tune up, ganti oli dan filter, service AC mobil, kaki-kaki dan rem, kelistrikan dan aki, cuci mobil hidrolik, steam wash interior, serta vacuum dan detailing.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Tanya Jawab</span>
+      <h2 class="headline-lg" id="faq-title">Pertanyaan yang Sering Diajukan</h2>
+      <span class="accent-bar" aria-hidden="true"></span>
+    </div>
+
+    <div class="faq-list">
+      {
+        FAQ.map((f, i) => (
+          <details class="faq-item" open={i === 0}>
+            <summary>
+              <span class="faq-q">{f.q}</span>
+              <span class="material-symbols-outlined faq-icon" aria-hidden="true">
+                expand_more
+              </span>
+            </summary>
+            <p class="faq-a">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+</section>
+
+<style>
+  .faq {
+    padding-block: var(--section-py);
+    background: var(--color-card);
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 880px;
+  }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
+  }
+  .faq-item[open] {
+    border-color: #f0d8a8;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q {
+    font-size: 15px;
+  }
+  .faq-icon {
+    font-size: 22px;
+    color: var(--color-accent);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .faq-item[open] .faq-icon {
+    transform: rotate(180deg);
+  }
+  .faq-a {
+    margin: 0;
+    padding: 0 20px 18px;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+</style>
