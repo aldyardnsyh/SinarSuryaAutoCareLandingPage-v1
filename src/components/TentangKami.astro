@@ -1,0 +1,188 @@
+---
+// Tentang Kami: kolase foto kiri, teks + info rows kanan.
+import { Image } from 'astro:assets';
+import { SITE, waLink } from '../data/site';
+import fotoBengkel from '../assets/area-bengkel-sinar-surya.jpg';
+import fotoPapanNama from '../assets/papan-nama-sinar-surya.jpg';
+import fotoDetailing from '../assets/detailing-interior-mobil.jpg';
+---
+
+<section class="tentang" id="tentang">
+  <div class="container grid">
+    <div class="collage">
+      <div class="collage-big">
+        <Image
+          src={fotoBengkel}
+          alt="Area bengkel Sinar Surya Auto Care di Bojongsoang dengan mobil pelanggan"
+          widths={[400, 720, 960]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          width={800}
+          height={400}
+          fit="cover"
+          position="attention"
+          loading="lazy"
+        />
+      </div>
+      <div class="collage-small">
+        <Image
+          src={fotoPapanNama}
+          alt="Papan nama Sinar Surya Motor di depan bengkel Bojongsoang"
+          widths={[300, 560]}
+          sizes="(min-width: 1024px) 25vw, 50vw"
+          width={560}
+          height={336}
+          fit="cover"
+          position="attention"
+          loading="lazy"
+        />
+        <Image
+          src={fotoDetailing}
+          alt="Teknisi Sinar Surya Auto Care mengerjakan detailing interior mobil"
+          widths={[300, 560]}
+          sizes="(min-width: 1024px) 25vw, 50vw"
+          width={560}
+          height={336}
+          fit="cover"
+          position="attention"
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <div class="content">
+      <span class="eyebrow">Tentang Kami</span>
+      <h2 class="headline-lg">Bengkel Keluarga di Bojongsoang</h2>
+      <span class="accent-bar" aria-hidden="true"></span>
+      <p>
+        Sinar Surya Auto Care adalah bengkel mobil dan cuci hidrolik yang berlokasi di
+        {SITE.address.street}, Bojongsoang, Kabupaten Bandung. Kami melayani perawatan dan
+        perbaikan mobil, mulai dari servis rutin, ganti oli, service AC, kaki-kaki, sampai
+        kelistrikan, untuk warga Bojongsoang, Dayeuhkolot, Baleendah, Buahbatu, dan kawasan
+        Bandung Selatan lainnya.
+      </p>
+      <p>
+        Bagi kami, mobil menopang aktivitas harian Anda, mulai dari bekerja, mengantar anak
+        sekolah, sampai berlibur. Karena itu setiap pengerjaan kami utamakan kerapian kerja dan
+        komunikasi yang enak diajak bicara: keluhan didengar dulu, baru dikerjakan.
+      </p>
+
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-icon"><span class="material-symbols-outlined" aria-hidden="true">pin_drop</span></span>
+          <span>
+            {SITE.address.street}, {SITE.address.detail}
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="info-icon"><span class="material-symbols-outlined" aria-hidden="true">schedule</span></span>
+          <span>Buka {SITE.hours.days} {SITE.hours.display}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-icon"><span class="material-symbols-outlined" aria-hidden="true">call</span></span>
+          <span>
+            Telepon / WhatsApp:
+            <a href={waLink('Mau tanya jam buka dan layanan yang tersedia.')}>{SITE.phoneDisplay}</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tentang {
+    padding-block: var(--section-py);
+    background: var(--color-card);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .collage {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .collage-big img {
+    width: 100%;
+    height: 288px;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+  }
+  .collage-small {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .collage-small img {
+    width: 100%;
+    height: 176px;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .content p {
+    margin: 0;
+    line-height: 1.7;
+  }
+  .info-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 6px;
+  }
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #eaeef6;
+    border-radius: var(--radius-card);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-dark);
+  }
+  .info-row a {
+    color: inherit;
+    font-weight: 700;
+  }
+  .info-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(179, 32, 44, 0.1);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .info-icon .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .collage {
+      grid-column: span 6;
+    }
+    .content {
+      grid-column: span 6;
+    }
+    .collage-big img {
+      height: 320px;
+    }
+  }
+</style>
