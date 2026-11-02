@@ -1,0 +1,410 @@
+---
+// Halaman pillar layanan: penjelasan lebih panjang per layanan + schema
+// Service + BreadcrumbList. Deskripsi di sini ditulis panjang, beda dari
+// kartu ringkas di homepage.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopInfoBar from '../components/TopInfoBar.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { SITE, waLink } from '../data/site';
+import { LAYANAN, type Layanan } from '../data/layanan';
+
+const grupServis = LAYANAN.filter((l: Layanan) => l.group === 'servis');
+const grupCuci = LAYANAN.filter((l: Layanan) => l.group === 'cuci');
+
+// Penjelasan panjang per layanan (berbeda dari deskripsi ringkas homepage).
+const DETAIL: Record<string, string> = {
+  'servis-rutin':
+    'Servis berkala menjaga mesin tetap responsif dan konsumsi bahan bakar tetap terkendali. Teknisi kami memeriksa komponen yang sering terlewat, dari busi sampai filter udara, lalu mencatat kondisi mobil Anda untuk pemantauan servis berikutnya.',
+  'ganti-oli':
+    'Kami menyediakan oli mesin, oli matic, dan filter sesuai spesifikasi mobil Anda. Oli lama dikuras sampai bersih, filter diganti, dan levelnya diukur ulang sebelum mobil kembali ke tangan Anda.',
+  'service-ac':
+    'Kabin yang kurang dingin biasanya bukan cuma soal freon. Pemeriksaan kami dimulai dari kebocoran, kebersihan evaporator dan kondensor, sampai kondisi kompresor. Setelah akar masalahnya ketemu, tindakannya dijelaskan dulu sebelum pengerjaan, jadi Anda tahu persis apa yang dibayar.',
+  'kaki-kaki':
+    'Bunyi berderit saat mengerem, mobil terasa goyang, atau setir yang narik adalah tanda bagian bawah butuh diperiksa. Komponen suspensi, shockbreaker, bushing, dan kampas rem kami bongkar dan ukur, lalu dilaporkan mana yang masih layak dan mana yang perlu diganti.',
+  'kelistrikan':
+    'Mobil yang susah distarter atau lampu yang mulai redup sering bermula dari kelistrikan. Penelusuran kami mulai dari aki, alternator, sampai sekring dan instalasi kabel. Kalau ternyata cuma terminal aki yang korok, Anda tidak akan disarankan ganti aki baru.',
+  'cuci-mobil-hidrolik':
+    'Inilah layanan yang paling sering jadi alasan orang datang. Mobil diangkat dengan lift hidrolik, lalu bagian bawahnya dibersihkan: kaso, sasis, sampai rongga roda. Lumpur yang menempel setelah perjalanan luar kota atau musim hujan lebih mudah ditangani di sini dibanding cuci konvensional.',
+  'steam-wash':
+    'Interior dibersihkan dengan uap panas, bukan sekadar dilap. Cara ini membantu mengangkat noda di jok, karpet, dan plafon tanpa membuat kabin lembap berhari-hari. Cocok untuk mobil yang sering mengangkut anak kecil atau peliharaan.',
+  'vacuum-detailing':
+    'Vacuum menjangkau sampai celah jok dan karpet, sedangkan detailing merapikan tampilan bagian luar dan mesin. Detail kecil seperti mulut tangki dan sela pintu ikut dibersihkan, bagian yang biasanya terlewat saat cuci biasa.',
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${SITE.domain}/layanan#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${SITE.domain}/` },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Layanan',
+      item: `${SITE.domain}/layanan`,
+    },
+  ],
+};
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE.domain}/layanan#service`,
+  serviceType: 'Servis mobil & cuci hidrolik',
+  name: 'Layanan Sinar Surya Auto Care',
+  provider: { '@id': `${SITE.domain}/#business` },
+  areaServed: [
+    'Bojongsoang',
+    'Dayeuhkolot',
+    'Baleendah',
+    'Buahbatu',
+    'Bandung Selatan',
+    'Kabupaten Bandung',
+  ],
+  url: `${SITE.domain}/layanan`,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Daftar layanan bengkel dan cuci mobil',
+    itemListElement: LAYANAN.map((l) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: l.nama, description: l.deskripsi },
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="Sinar Surya Auto Care | Layanan Servis &amp; Cuci Mobil Bojongsoang"
+  description="Layanan Sinar Surya Auto Care di Bojongsoang: servis rutin, ganti oli, AC mobil, kaki-kaki, kelistrikan, cuci hidrolik sampai kolong, steam wash, dan detailing."
+  path="/layanan"
+>
+  <TopInfoBar />
+  <Navbar />
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Beranda</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Layanan</span>
+        </nav>
+        <span class="eyebrow">Layanan</span>
+        <h1 class="headline-lg">Servis Mobil &amp; Cuci Hidrolik dalam Satu Lokasi</h1>
+        <span class="accent-bar" aria-hidden="true"></span>
+        <p class="intro">
+          Sinar Surya Auto Care di Jl. Cijagra No. 8, Bojongsoang, menangani dua kebutuhan
+          dalam satu tempat: perawatan dan perbaikan mesin, serta pencucian menyeluruh dengan
+          lift hidrolik. Pilih layanan di bawah, lalu tanyakan estimasinya lewat WhatsApp
+          sebelum Anda datang.
+        </p>
+      </div>
+    </section>
+
+    <section class="blok">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Servis &amp; Perbaikan</span>
+          <h2 class="headline-lg">Mesin dan Kaki-kaki, Ditangani Tim Bengkel</h2>
+          <span class="accent-bar" aria-hidden="true"></span>
+        </div>
+        <div class="cards">
+          {
+            grupServis.map((l) => (
+              <article class="card">
+                <span class="card-icon icon-servis">
+                  <span class="material-symbols-outlined" aria-hidden="true">
+                    {l.ikon}
+                  </span>
+                </span>
+                <h3>{l.nama}</h3>
+                <p>{DETAIL[l.id]}</p>
+                <a
+                  class="card-link link-servis"
+                  href={waLink(l.waMessage)}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Tanya estimasi ${l.nama} via WhatsApp`}
+                >
+                  Tanya estimasi via WhatsApp
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="jam-band" aria-label="Jam operasional per layanan">
+      <div class="container jam-inner">
+        <div class="jam-item">
+          <span class="material-symbols-outlined" aria-hidden="true">build</span>
+          <div>
+            <p class="strong">Servis &amp; Perbaikan</p>
+            <p>Senin sampai Sabtu, 07.00 sampai 17.00</p>
+          </div>
+        </div>
+        <div class="jam-item">
+          <span class="material-symbols-outlined" aria-hidden="true">local_car_wash</span>
+          <div>
+            <p class="strong">Cuci Hidrolik &amp; Steam</p>
+            <p>Setiap hari, Minggu 08.00 sampai 14.00</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="blok alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Cuci Hidrolik &amp; Steam Detailing</span>
+          <h2 class="headline-lg">Cuci Sampai Kolong, Kabin Sampai Detail</h2>
+          <span class="accent-bar" aria-hidden="true"></span>
+        </div>
+        <div class="cards">
+          {
+            grupCuci.map((l) => (
+              <article class="card">
+                <span class="card-icon icon-cuci">
+                  <span class="material-symbols-outlined" aria-hidden="true">
+                    {l.ikon}
+                  </span>
+                </span>
+                <h3>{l.nama}</h3>
+                <p>{DETAIL[l.id]}</p>
+                <a
+                  class="card-link link-cuci"
+                  href={waLink(l.waMessage)}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Tanya ${l.nama} via WhatsApp`}
+                >
+                  Tanya estimasi via WhatsApp
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="penutup">
+      <div class="container inner">
+        <h2 class="headline-lg">Tentukan Layanan yang Dibutuhkan Hari Ini</h2>
+        <p>
+          Kirim keluhan atau foto mobil Anda, tim kami balas dengan estimasi pengerjaan
+          sebelum jadwal disepakati.
+        </p>
+        <div class="cta-actions">
+          <a class="btn-wa btn" href={waLink()} target="_blank" rel="noopener">
+            Tanya Estimasi via WhatsApp
+          </a>
+          <a class="btn-white btn" href={`tel:${SITE.phoneIntl}`}>
+            <span class="material-symbols-outlined" aria-hidden="true">call</span>
+            Hubungi {SITE.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <WhatsAppFloat />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: 56px 64px;
+    background: var(--color-dark);
+    color: #edf1f9;
+  }
+  .page-hero .headline-lg {
+    color: #fff;
+    max-width: 720px;
+  }
+  .page-hero .accent-bar {
+    margin-block: 14px 18px;
+  }
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #9aa1ad;
+    margin-bottom: 20px;
+  }
+  .crumbs a {
+    color: #ffddb4;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+  .crumb-sep {
+    color: #6b7280;
+  }
+  .intro {
+    max-width: 640px;
+    color: #c3c6ce;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .blok {
+    padding-block: var(--section-py);
+    background: var(--color-card);
+  }
+  .blok.alt {
+    background: var(--color-bg-light);
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .blok.alt .card {
+    background: var(--color-card);
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .icon-servis {
+    background: var(--color-primary);
+  }
+  .icon-cuci {
+    background: var(--color-water);
+  }
+  .card h3 {
+    font-size: 21px;
+    letter-spacing: 0.03em;
+  }
+  .card p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    margin-top: auto;
+  }
+  .link-servis {
+    color: var(--color-primary);
+  }
+  .link-cuci {
+    color: var(--color-water);
+  }
+  .card-link:hover {
+    text-decoration: underline;
+  }
+  .card-link .material-symbols-outlined {
+    font-size: 16px;
+  }
+  .jam-band {
+    background: var(--color-dark);
+    color: #edf1f9;
+    padding-block: 28px;
+  }
+  .jam-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .jam-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .jam-item .material-symbols-outlined {
+    color: #ffb955;
+    font-size: 20px;
+    margin-top: 2px;
+  }
+  .jam-item p {
+    margin: 0;
+    line-height: 1.6;
+  }
+  .jam-item .strong {
+    color: #fff;
+    font-weight: 700;
+  }
+  .penutup {
+    padding-block: 64px;
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  .inner h2 {
+    color: #fff;
+    max-width: 720px;
+  }
+  .inner p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 17px;
+    line-height: 26px;
+    max-width: 640px;
+    margin: 0;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  @media (min-width: 768px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .jam-inner {
+      flex-direction: row;
+      justify-content: center;
+      gap: 48px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
