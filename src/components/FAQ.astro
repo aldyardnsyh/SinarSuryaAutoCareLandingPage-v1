@@ -1,30 +1,24 @@
 ---
-// FAQ: jawaban dibuat HANYA dari data yang sudah terverifikasi (jam buka,
-// lokasi, alur booking) agar tidak menampilkan klaim yang belum terverifikasi.
-// Pertanyaan mengikuti pola pencarian lokal umum: lokasi, jam Minggu, cara
-// booking, harga, dan daftar layanan.
+// FAQ: pertanyaan seputar brand dan kepercayaan. Jawaban hanya memakai data
+// terverifikasi: rating & ulasan Google Maps, jam buka, dan alur booking.
 import { SITE } from '../data/site';
 
 const FAQ = [
   {
-    q: 'Di mana lokasi Sinar Surya Auto Care?',
-    a: `Bengkel kami berada di ${SITE.address.street}, Bojongsoang, Kab. Bandung, mudah dijangkau dari Dayeuhkolot, Baleendah, Buahbatu, dan kawasan Bandung Selatan. Titik lokasi dan tombol rute tersedia di bagian kontak.`,
+    q: 'Apa itu Sinar Surya Auto Care dan layanan utamanya?',
+    a: `Sinar Surya Auto Care adalah bengkel mobil yang sekaligus melayani cuci hidrolik, di ${SITE.address.street}, Bojongsoang, Kab. Bandung. Ada dua sisi pekerjaan di sini. Sisi mekanikal: servis rutin dan tune up, ganti oli dan filter, service AC mobil, kaki-kaki dan rem, sampai kelistrikan dan aki. Sisi perawatan tampilan: cuci mobil dengan lift hidrolik sampai bagian kolong, steam wash interior, lalu vacuum dan detailing. Satu kendaraan bisa ditangani dari mesin sampai kabin di lokasi yang sama.`,
   },
   {
-    q: 'Apakah buka hari Minggu?',
-    a: 'Cuci hidrolik dan steam wash buka setiap hari, termasuk Minggu dengan jam 08.00 sampai 14.00. Sementara layanan servis dan perbaikan melayani Senin sampai Sabtu, 07.00 sampai 17.00.',
+    q: 'Apakah Sinar Surya Auto Care bengkel yang tepercaya?',
+    a: `Silakan cek dulu sebelum datang, itu wajar. Profil kami di Google Maps memuat ${SITE.rating.count} ulasan pelanggan dengan rating rata-rata ${SITE.rating.score} dari 5. Yang sering dipuji adalah hasil cuci yang bersih dan keramahan petugasnya. Kalau masih ragu, baca ulasannya satu per satu, atau mulai dari urusan ringan seperti cuci mobil supaya Anda bisa menilai sendiri cara kerja kami.`,
   },
   {
-    q: 'Bagaimana cara booking servis atau cuci mobil?',
-    a: 'Tinggal chat WhatsApp kami, kirim keluhan atau foto mobil Anda, tim kami bantu periksa lalu atur jadwal bersama. Panduan singkatnya ada di bagian Cara Booking & Servis di halaman ini.',
+    q: 'Apa keunggulan Sinar Surya Auto Care dibanding bengkel lain?',
+    a: 'Beberapa hal yang biasanya membuat pelanggan betah. Estimasi dikerjakan lewat WhatsApp sebelum Anda datang, jadi tidak ada kejutan biaya di tengah jalan. Untuk urusan kebersihan, ada lift hidrolik khusus cuci: bagian bawah mobil ikut dibersihkan, bukan hanya badan dan velg. Fasilitasnya juga mendukung: tersedia mushola dan toilet, pembayaran bisa pakai QRIS, dan kalau harus menunggu ada kedai makan di sekitar lokasi. Cuci hidrolik buka setiap hari, termasuk Minggu.',
   },
   {
-    q: 'Berapa harga servis atau cuci mobilnya?',
-    a: 'Setiap kendaraan berbeda kondisi, jadi biayanya menyesuaikan. Kirim keluhan atau foto bagian mobil Anda lewat WhatsApp, kami periksa dulu lalu berikan estimasi sebelum pengerjaan dimulai.',
-  },
-  {
-    q: 'Layanan apa saja yang tersedia?',
-    a: 'Servis rutin dan tune up, ganti oli dan filter, service AC mobil, kaki-kaki dan rem, kelistrikan dan aki, cuci mobil hidrolik, steam wash interior, serta vacuum dan detailing.',
+    q: 'Apakah ada garansi pengerjaan?',
+    a: 'Ketentuannya mengikuti jenis pekerjaan dan kondisi mobil Anda, jadi paling tepat ditanyakan langsung saat konsultasi. Ceritakan keluhannya lewat WhatsApp, tim kami akan menjelaskan cakupan perbaikan dan ketentuan yang menyertainya sebelum pengerjaan disetujui. Untuk cuci dan detailing, hasilnya bisa langsung Anda periksa sebelum mobil keluar dari lokasi.',
   },
 ];
 
