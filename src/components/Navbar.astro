@@ -1,18 +1,21 @@
 ---
 // Sticky navbar: logo, menu anchor, CTA WhatsApp + Booking. Hamburger di mobile.
+// Anchor memakai root-relative (`/#tentang`) agar tetap berfungsi saat dipakai
+// di halaman selain homepage.
 import { SITE, waLink } from '../data/site';
 
+const base = Astro.url.pathname === '/' ? '' : '/';
 const menu = [
-  { label: 'Beranda', href: '#beranda' },
-  { label: 'Tentang', href: '#tentang' },
-  { label: 'Layanan', href: '#layanan' },
-  { label: 'Kontak', href: '#kontak' },
+  { label: 'Beranda', href: `${base}#beranda` },
+  { label: 'Tentang', href: `${base}#tentang` },
+  { label: 'Layanan', href: `${base}#layanan` },
+  { label: 'Kontak', href: `${base}#kontak` },
 ];
 ---
 
 <header class="navbar">
   <div class="container navbar-inner">
-    <a class="brand" href="#beranda" aria-label="Sinar Surya Auto Care, kembali ke atas">
+    <a class="brand" href={`${base}#beranda`} aria-label="Sinar Surya Auto Care, kembali ke atas">
       <span class="brand-mark material-symbols-outlined" aria-hidden="true">wb_sunny</span>
       <span class="brand-text">
         <span class="brand-name">SSAC · Sinar Surya Auto Care</span>
@@ -39,7 +42,7 @@ const menu = [
         </svg>
         <span>{SITE.whatsappDisplay}</span>
       </a>
-      <a class="btn-primary btn nav-booking" href="#kontak">
+      <a class="btn-primary btn nav-booking" href={`${base}#kontak`}>
         <span class="material-symbols-outlined" aria-hidden="true">build</span>
         <span>Booking Service</span>
       </a>
@@ -57,7 +60,7 @@ const menu = [
 
   <nav class="mobile-menu" id="mobile-menu" aria-label="Navigasi mobile" hidden>
     {menu.map((m) => <a href={m.href}>{m.label}</a>)}
-    <a href="#kontak">Booking Service</a>
+    <a href={`${base}#kontak`}>Booking Service</a>
     <a class="btn-wa btn" href={waLink()} target="_blank" rel="noopener">Chat WhatsApp</a>
   </nav>
 </header>
