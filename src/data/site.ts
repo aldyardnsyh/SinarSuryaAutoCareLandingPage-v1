@@ -39,6 +39,17 @@ export const SITE = {
   },
   // Non-www di-redirect Vercel ke www, jadi semua URL resmi memakai www.
   domain: 'https://www.sinarsuryaautocare.biz.id', // samakan dengan astro.config.mjs & robots.txt
+  // Tautan terkait yang direkomendasikan di footer (info pendamping untuk pengunjung).
+  relatedSites: [
+    {
+      url: 'https://www.bengkelmobilbojongsoang.web.id',
+      anchor: 'Info lengkap bengkel di Bojongsoang',
+    },
+    {
+      url: 'https://www.bengkelmobilbandung.biz.id',
+      anchor: 'Layanan cuci hidrolik & steam wash area Bandung',
+    },
+  ],
 } as const;
 
 /** Alamat lengkap dalam satu baris (untuk topbar, footer, pesan WA). */

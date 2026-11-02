@@ -4,11 +4,11 @@ import { SITE, waLink } from '../data/site';
 import { LAYANAN } from '../data/layanan';
 
 const nav = [
-  { label: 'Beranda', href: '#beranda' },
-  { label: 'Tentang Kami', href: '#tentang' },
-  { label: 'Layanan', href: '#layanan' },
-  { label: 'Cara Booking', href: '#beranda' },
-  { label: 'Kontak', href: '#kontak' },
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang Kami', href: '/tentang' },
+  { label: 'Layanan', href: '/layanan' },
+  { label: 'Ulasan', href: '/ulasan' },
+  { label: 'Kontak', href: '/#kontak' },
 ];
 const layananFooter = [
   'Servis Rutin & Tune Up',
@@ -31,6 +31,23 @@ const layananFooter = [
         Bengkel mobil dan cuci hidrolik di Bojongsoang, Kab. Bandung. Melayani servis rutin,
         perbaikan, sampai steam wash, semua dalam satu tempat.
       </p>
+      <div class="jelajahi">
+        <span class="col-title">Jelajahi</span>
+        <ul>
+          {
+            SITE.relatedSites.map((s) => (
+              <li>
+                <span class="material-symbols-outlined chev" aria-hidden="true">
+                  travel_explore
+                </span>
+                <a href={s.url} target="_blank" rel="noopener">
+                  {s.anchor}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
 
     <div class="col">
@@ -164,6 +181,12 @@ const layananFooter = [
     line-height: 1.7;
     color: #c3c6ce;
     margin: 14px 0 0;
+  }
+  .jelajahi {
+    margin-top: 24px;
+  }
+  .jelajahi .col-title {
+    margin-bottom: 12px;
   }
   .verif {
     display: flex;
