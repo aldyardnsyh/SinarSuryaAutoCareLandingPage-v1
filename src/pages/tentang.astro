@@ -1,0 +1,503 @@
+---
+// Halaman Tentang: cerita bengkel, cara kerja, dan tim. Schema AboutPage +
+// BreadcrumbList. Foto memakai foto asli bengkel yang sudah ada di assets.
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopInfoBar from '../components/TopInfoBar.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { SITE, ALAMAT_SINGKAT, waLink } from '../data/site';
+import fotoPapanNama from '../assets/papan-nama-sinar-surya.jpg';
+import fotoArea from '../assets/area-bengkel-sinar-surya.jpg';
+import fotoServisLift from '../assets/mekanik-servis-mobil-lift.png';
+import fotoProses from '../assets/proses-servis-mobil.png';
+import fotoMesin from '../assets/pemeriksaan-mesin-mobil.png';
+
+const NILAI = [
+  {
+    ikon: 'fact_check',
+    judul: 'Estimasi Sebelum Pengerjaan',
+    deskripsi:
+      'Keluhan diterima lewat WhatsApp atau langsung di bengkel, lalu diperiksa. Angka dan urutan pengerjaan disampaikan dulu, jadi tidak ada biaya yang muncul tiba-tiba.',
+  },
+  {
+    ikon: 'construction',
+    judul: 'Kerja Rapi dan Terukur',
+    deskripsi:
+      'Komponen yang dilepas diletakkan tertata, pengencangan baut mengikuti standar, dan area kerja dibersihkan setelah selesai. Mobil kembali dalam kondisi lebih baik, bukan sekadar selesai.',
+  },
+  {
+    ikon: 'handyman',
+    judul: 'Sparepart yang Tepat',
+    deskripsi:
+      'Kalau komponen lama masih layak, kami bilang masih layak. Rekomendasi penggantian selalu disertai alasan, dan pilihannya menyesuaikan kondisi serta usia mobil Anda.',
+  },
+  {
+    ikon: 'storefront',
+    judul: 'Fasilitas yang Lengkap',
+    deskripsi:
+      'Tersedia mushola dan toilet, pembayaran bisa tunai atau QRIS, dan di sekitar bengkel ada kedai makan untuk yang menemani waktu tunggu.',
+  },
+];
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${SITE.domain}/tentang#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${SITE.domain}/` },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Tentang',
+      item: `${SITE.domain}/tentang`,
+    },
+  ],
+};
+
+const tentangJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${SITE.domain}/tentang#page`,
+  url: `${SITE.domain}/tentang`,
+  name: 'Tentang Sinar Surya Auto Care',
+  description:
+    'Cerita, cara kerja, dan tim di balik Sinar Surya Auto Care, bengkel mobil dan cuci hidrolik di Jl. Cijagra No. 8, Bojongsoang.',
+  about: { '@id': `${SITE.domain}/#business` },
+  breadcrumb: { '@id': `${SITE.domain}/tentang#breadcrumb` },
+  inLanguage: 'id',
+};
+---
+
+<BaseLayout
+  title="Sinar Surya Auto Care | Tentang Bengkel &amp; Tim Kami di Bojongsoang"
+  description="Kenali Sinar Surya Auto Care lebih dekat: cara kerja bengkel, nilai pelayanan, dan tim yang menangani mobil Anda di Jl. Cijagra No. 8, Bojongsoang, Kab. Bandung."
+  path="/tentang"
+>
+  <TopInfoBar />
+  <Navbar />
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Beranda</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Tentang</span>
+        </nav>
+        <span class="eyebrow">Tentang Kami</span>
+        <h1 class="headline-lg">Cerita di Balik Sinar Surya Auto Care</h1>
+        <span class="accent-bar" aria-hidden="true"></span>
+        <p class="intro">
+          Bengkel mobil dan cuci hidrolik yang beraktivitas setiap hari di Jl. Cijagra
+          No. 8, Bojongsoang, melayani warga Bandung Selatan dan sekitarnya.
+        </p>
+      </div>
+    </section>
+
+    <section class="blok cerita">
+      <div class="container grid">
+        <div class="collage">
+          <div class="collage-big">
+            <Image
+              src={fotoPapanNama}
+              alt="Papan nama bengkel di Jl. Cijagra No. 8, Bojongsoang"
+              widths={[400, 720]}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              width={560}
+              height={336}
+              fit="cover"
+              position="attention"
+              loading="lazy"
+            />
+          </div>
+          <div class="collage-small">
+            <Image
+              src={fotoServisLift}
+              alt="Mekanik mengerjakan mobil di area servis"
+              widths={[300, 560]}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              width={560}
+              height={336}
+              fit="cover"
+              position="attention"
+              loading="lazy"
+            />
+            <Image
+              src={fotoMesin}
+              alt="Pemeriksaan mesin mobil sebelum pengerjaan"
+              widths={[300, 560]}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              width={560}
+              height={336}
+              fit="cover"
+              position="attention"
+              loading="lazy"
+            />
+            <Image
+              src={fotoArea}
+              alt="Area bengkel dengan mobil pelanggan"
+              widths={[300, 560]}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              width={560}
+              height={336}
+              fit="cover"
+              position="attention"
+              loading="lazy"
+            />
+            <Image
+              src={fotoProses}
+              alt="Proses pengerjaan di Sinar Surya Auto Care"
+              widths={[300, 560]}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              width={560}
+              height={336}
+              fit="cover"
+              position="attention"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="content">
+          <span class="eyebrow">Awal Mula</span>
+          <h2 class="headline-lg">Dua Pekerjaan, Satu Alamat</h2>
+          <span class="accent-bar" aria-hidden="true"></span>
+          <p>
+            Nama Sinar Surya Auto Care sudah sering terdengar bagi yang lewat Jl. Cijagra,
+            Bojongsoang. Di satu lokasi ini ada dua pekerjaan yang biasanya dipisah tempat:
+            mekanik yang memperbaiki mesin, dan tim cuci yang merawat tampilan mobil sampai
+            bagian bawahnya. Dua tim itu berbagi satu area kerja, sehingga pengunjung tidak
+            perlu memindahkan mobil ke tempat lain untuk urusan yang berbeda.
+          </p>
+          <p>
+            Cara kerja kami mengikuti satu pola: dengar keluhannya, periksa, jelaskan temuan
+            dan estimasinya, baru lanjut ke pengerjaan. Komunikasi seperti ini membuat
+            keputusan tetap ada di tangan pemilik mobil. Kalimatnya mungkin terdengar biasa,
+            tapi inilah standar yang kami pegang setiap hari.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="blok alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Cara Kerja</span>
+          <h2 class="headline-lg">Prinsip yang Kami Pegang</h2>
+          <span class="accent-bar" aria-hidden="true"></span>
+        </div>
+        <div class="cards">
+          {
+            NILAI.map((n) => (
+              <article class="card">
+                <span class="card-icon">
+                  <span class="material-symbols-outlined" aria-hidden="true">{n.ikon}</span>
+                </span>
+                <h3>{n.judul}</h3>
+                <p>{n.deskripsi}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="blok tim">
+      <div class="container grid-tim">
+        <div>
+          <span class="eyebrow">Tim Kami</span>
+          <h2 class="headline-lg">Siapa yang Menangani Mobil Anda</h2>
+          <span class="accent-bar" aria-hidden="true"></span>
+          <p>
+            Ada dua tim di Sinar Surya Auto Care. Tim bengkel menangani servis dan
+            perbaikan, mulai dari tune up, oli, AC, kaki-kaki, sampai kelistrikan. Tim cuci
+            mengurus lift hidrolik, steam wash interior, vacuum, dan detailing. Keduanya
+            sama-sama terbiasa menangani mobil keluarga dan kendaraan harian yang dipakai
+            setiap hari.
+          </p>
+          <p>
+            Satu hal lagi yang sering ditanyakan: reputasi. Rating {SITE.rating.score} dari
+            {SITE.rating.count} ulasan di profil Google Maps kami terbuka untuk semua orang,
+            lengkap dengan tulisannya, dan <a href="/ulasan">ringkasannya ada di halaman
+            ulasan</a>.
+          </p>
+        </div>
+        <aside class="faktanya">
+          <span class="eyebrow faktanya-eyebrow">Faktanya</span>
+          <ul>
+            <li>
+              <span class="material-symbols-outlined" aria-hidden="true">pin_drop</span>
+              <span>{ALAMAT_SINGKAT}</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+              <span>Servis: Senin sampai Sabtu, 07.00 sampai 17.00. Cuci hidrolik: setiap hari, Minggu 08.00 sampai 14.00.</span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+              <span>
+                WhatsApp <a href={waLink()} target="_blank" rel="noopener">{SITE.whatsappDisplay}</a>
+              </span>
+            </li>
+            <li>
+              <span class="material-symbols-outlined" aria-hidden="true">star</span>
+              <span>{SITE.rating.score} dari {SITE.rating.count} ulasan di Google Maps</span>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="penutup">
+      <div class="container inner">
+        <h2 class="headline-lg">Kenalan Lebih Dekat, Langsung ke Lokasinya</h2>
+        <p>
+          Coba dulu urusan ringan seperti cuci mobil, dan lihat sendiri cara kerja kami.
+          Kalau cocok, sisanya bisa Anda titipkan.
+        </p>
+        <div class="cta-actions">
+          <a class="btn-wa btn" href={waLink('Saya mau mampir untuk cuci atau servis ringan. Hari ini masih buka?')} target="_blank" rel="noopener">
+            Chat WhatsApp
+          </a>
+          <a class="btn-white btn" href={SITE.gmapsShare} target="_blank" rel="noopener">
+            <span class="material-symbols-outlined" aria-hidden="true">map</span>
+            Lihat Lokasi di Google Maps
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <WhatsAppFloat />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(tentangJsonLd)} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: 56px 64px;
+    background: var(--color-dark);
+    color: #edf1f9;
+  }
+  .page-hero .headline-lg {
+    color: #fff;
+    max-width: 720px;
+  }
+  .page-hero .accent-bar {
+    margin-block: 14px 18px;
+  }
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #9aa1ad;
+    margin-bottom: 20px;
+  }
+  .crumbs a {
+    color: #ffddb4;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+  .crumb-sep {
+    color: #6b7280;
+  }
+  .intro {
+    max-width: 640px;
+    color: #c3c6ce;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .blok {
+    padding-block: var(--section-py);
+    background: var(--color-card);
+  }
+  .blok.alt {
+    background: var(--color-bg-light);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .collage {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .collage :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-2);
+  }
+  .collage-small {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .collage-big :global(img) {
+    height: 260px;
+  }
+  .collage-small :global(img) {
+    height: 150px;
+  }
+  .content .accent-bar {
+    margin-block: 12px 20px;
+  }
+  .content p {
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card h3 {
+    font-size: 21px;
+    letter-spacing: 0.03em;
+  }
+  .card p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+  .grid-tim {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .grid-tim .accent-bar {
+    margin-block: 12px 20px;
+  }
+  .grid-tim p {
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+  .grid-tim a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .faktanya {
+    background: var(--color-dark);
+    color: #c3c6ce;
+    border-radius: var(--radius-card);
+    padding: 28px 24px;
+  }
+  .faktanya-eyebrow {
+    color: var(--color-accent);
+  }
+  .faktanya ul {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .faktanya li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .faktanya .material-symbols-outlined {
+    font-size: 20px;
+    color: #ffb955;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .faktanya a {
+    color: #ffddb4;
+  }
+  .penutup {
+    padding-block: 64px;
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  .inner h2 {
+    color: #fff;
+    max-width: 720px;
+  }
+  .inner p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 17px;
+    line-height: 26px;
+    max-width: 640px;
+    margin: 0;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  @media (min-width: 768px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .grid-tim {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .collage-big :global(img) {
+      height: 300px;
+    }
+    .collage-small :global(img) {
+      height: 160px;
+    }
+  }
+</style>
