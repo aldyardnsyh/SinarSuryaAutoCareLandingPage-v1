@@ -37,7 +37,8 @@ export const SITE = {
     facebook:
       'https://www.facebook.com/pages/Sinar-Surya-Auto-Care/154461098013280',
   },
-  domain: 'https://sinarsuryaautocare.biz.id', // samakan dengan astro.config.mjs & robots.txt
+  // Non-www di-redirect Vercel ke www, jadi semua URL resmi memakai www.
+  domain: 'https://www.sinarsuryaautocare.biz.id', // samakan dengan astro.config.mjs & robots.txt
 } as const;
 
 /** Alamat lengkap dalam satu baris (untuk topbar, footer, pesan WA). */
