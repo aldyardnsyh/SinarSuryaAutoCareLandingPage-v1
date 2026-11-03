@@ -1,0 +1,263 @@
+---
+// Halaman artikel blog: markdown dari src/content/blog, foto asli dari src/assets.
+// Schema: BlogPosting (author & publisher = bisnis) + BreadcrumbList.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopInfoBar from '../../components/TopInfoBar.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
+import { SITE, waLink } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formatTanggal = (d: Date) =>
+  d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+const url = `${SITE.domain}/blog/${post.slug}/`;
+const ogImage = `${SITE.domain}/og-image.jpg`;
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${url}#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.domain}/blog/` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: url },
+  ],
+};
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${url}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  image: [ogImage],
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  inLanguage: 'id',
+  author: { '@type': 'Organization', name: SITE.name, url: `${SITE.domain}/` },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    logo: { '@type': 'ImageObject', url: `${SITE.domain}/icon-512.png` },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} | Blog Sinar Surya Auto Care`}
+  description={post.data.description}
+  path={`/blog/${post.slug}`}
+>
+  <TopInfoBar />
+  <Navbar />
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Beranda</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <a href="/blog">Blog</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Artikel</span>
+        </nav>
+        <span class="eyebrow">Blog &amp; Tips</span>
+        <h1 class="headline-lg">{post.data.title}</h1>
+        <span class="accent-bar" aria-hidden="true"></span>
+        <p class="meta">
+          <time datetime={post.data.pubDate.toISOString()}>{formatTanggal(post.data.pubDate)}</time>
+          · Sinar Surya Auto Care, Bojongsoang
+        </p>
+      </div>
+    </section>
+
+    <section class="blok">
+      <div class="container artikel">
+        <article class="prose">
+          <Content />
+        </article>
+
+        <aside class="cta-box">
+          <h2>Mau Mobilnya Ditangani Langsung?</h2>
+          <p>
+            Ceritakan keluhan Anda lewat WhatsApp. Tim kami cek dulu kondisinya, lalu jelaskan
+            estimasi pengerjaannya sebelum Anda datang ke bengkel.
+          </p>
+          <div class="cta-actions">
+            <a class="btn btn-wa" href={waLink()} target="_blank" rel="noopener">Chat WhatsApp</a>
+            <a class="btn btn-primary" href="/layanan">Lihat Layanan</a>
+          </div>
+        </aside>
+
+        <p class="kembali">
+          <a href="/blog"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span> Kembali ke daftar artikel</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <WhatsAppFloat />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: 56px 64px;
+    background: var(--color-dark);
+    color: #edf1f9;
+  }
+  .page-hero .headline-lg {
+    color: #fff;
+    max-width: 760px;
+  }
+  .page-hero .accent-bar {
+    margin-block: 14px 18px;
+  }
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #9aa1ad;
+    margin-bottom: 20px;
+  }
+  .crumbs a {
+    color: #ffddb4;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+  .crumb-sep {
+    color: #6b7280;
+  }
+  .meta {
+    max-width: 640px;
+    color: #c3c6ce;
+    margin: 0;
+  }
+  .blok {
+    padding-block: var(--section-py);
+    background: var(--color-bg-light);
+  }
+  .artikel {
+    max-width: calc(720px + 2 * var(--gutter));
+  }
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-2);
+    margin: 0 0 24px;
+  }
+  /* Tipografi isi artikel (markdown) */
+  .prose {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    padding: 32px 24px;
+  }
+  .prose :global(h2) {
+    font-size: 26px;
+    margin: 36px 0 12px;
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h3) {
+    font-size: 20px;
+    margin: 28px 0 10px;
+  }
+  .prose :global(p) {
+    margin: 0 0 16px;
+    line-height: 1.8;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 16px;
+    padding-left: 22px;
+    line-height: 1.8;
+  }
+  .prose :global(li) {
+    margin-bottom: 8px;
+  }
+  .prose :global(a) {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  .prose :global(a:hover) {
+    text-decoration: underline;
+  }
+  .prose :global(blockquote) {
+    margin: 0 0 16px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-bg-light);
+    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  }
+  .prose :global(strong) {
+    color: var(--color-dark);
+  }
+  .cta-box {
+    margin-top: 36px;
+    background: var(--color-dark);
+    color: #edf1f9;
+    border-radius: var(--radius-card);
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .cta-box h2 {
+    color: #fff;
+    font-size: 26px;
+  }
+  .cta-box p {
+    color: #c3c6ce;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 12px auto 0;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .kembali {
+    margin: 28px 0 0;
+    text-align: center;
+  }
+  .kembali a {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .kembali a:hover {
+    color: var(--color-dark);
+  }
+  .kembali .material-symbols-outlined {
+    font-size: 18px;
+  }
+  @media (min-width: 768px) {
+    .prose {
+      padding: 44px 48px;
+    }
+  }
+</style>

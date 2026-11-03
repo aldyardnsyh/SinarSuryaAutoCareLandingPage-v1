@@ -1,0 +1,217 @@
+---
+// Daftar artikel blog, terbaru dulu.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopInfoBar from '../../components/TopInfoBar.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
+import { SITE, waLink } from '../../data/site';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const formatTanggal = (d: Date) =>
+  d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  '@id': `${SITE.domain}/blog#breadcrumb`,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Beranda', item: `${SITE.domain}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.domain}/blog/` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Sinar Surya Auto Care | Blog & Tips Perawatan Mobil"
+  description="Kumpulan tips perawatan mobil dari Sinar Surya Auto Care Bojongsoang: jadwal servis rutin, ganti oli, service AC, cara memilih bengkel terdekat, sampai bedanya cuci hidrolik dengan cuci biasa."
+  path="/blog"
+>
+  <TopInfoBar />
+  <Navbar />
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Beranda</a>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Blog</span>
+        </nav>
+        <span class="eyebrow">Blog &amp; Tips</span>
+        <h1 class="headline-lg">Tips Perawatan Mobil dari Bengkel Kami</h1>
+        <span class="accent-bar" aria-hidden="true"></span>
+        <p class="intro">
+          Tulisan pendek seputar perawatan sehari-hari, kapan mobil perlu dibawa ke bengkel, dan
+          kebiasaan cuci yang bikin mobil lebih awet. Ditulis berdasarkan pengalaman kami
+          menangani mobil warga Bojongsoang dan sekitarnya.
+        </p>
+      </div>
+    </section>
+
+    <section class="blok">
+      <div class="container">
+        <div class="cards">
+          {
+            posts.map((post) => (
+              <article class="card">
+                <p class="tanggal">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {formatTanggal(post.data.pubDate)}
+                  </time>
+                </p>
+                <h2>
+                  <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+                </h2>
+                <p class="desc">{post.data.description}</p>
+                <a class="baca" href={`/blog/${post.slug}/`}>
+                  Baca selengkapnya
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="cta-strip">
+          <p>
+            Mau tanya soal kondisi mobil Anda langsung ke mekaniknya? Chat WhatsApp kami,
+            gratis dan tanpa perlu janji temu dulu.
+          </p>
+          <a class="btn btn-wa" href={waLink()} target="_blank" rel="noopener">Chat WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <WhatsAppFloat />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: 56px 64px;
+    background: var(--color-dark);
+    color: #edf1f9;
+  }
+  .page-hero .headline-lg {
+    color: #fff;
+    max-width: 720px;
+  }
+  .page-hero .accent-bar {
+    margin-block: 14px 18px;
+  }
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #9aa1ad;
+    margin-bottom: 20px;
+  }
+  .crumbs a {
+    color: #ffddb4;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+  .crumb-sep {
+    color: #6b7280;
+  }
+  .intro {
+    max-width: 640px;
+    color: #c3c6ce;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .blok {
+    padding-block: var(--section-py);
+    background: var(--color-bg-light);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tanggal {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .card h2 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  .card h2 a {
+    color: var(--color-dark);
+    text-decoration: none;
+  }
+  .card h2 a:hover {
+    color: var(--color-primary);
+  }
+  .desc {
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .baca {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .baca:hover {
+    text-decoration: underline;
+  }
+  .baca .material-symbols-outlined {
+    font-size: 16px;
+  }
+  .cta-strip {
+    margin-top: 40px;
+    padding: 28px;
+    background: var(--color-dark);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .cta-strip p {
+    margin: 0;
+    color: #c3c6ce;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+  @media (min-width: 768px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cta-strip {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+</style>

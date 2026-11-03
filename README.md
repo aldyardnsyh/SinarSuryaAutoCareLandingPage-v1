@@ -1,7 +1,7 @@
 # Website Landing Page — Sinar Surya Auto Care
 
-Landing page satu halaman untuk bengkel mobil & cuci hidrolik, dibangun dengan **Astro 4**. Zero framework JS — HTML statis murni + beberapa baris vanilla script.
-Domain final: **https://sinarsuryaautocare.biz.id** (deploy di Vercel).
+Situs brand hub bengkel mobil & cuci hidrolik, dibangun dengan **Astro 4**. Zero framework JS — HTML statis murni + beberapa baris vanilla script.
+Domain final: **https://www.sinarsuryaautocare.biz.id** (deploy di Vercel, non-www di-redirect ke www).
 
 ## Perintah
 
@@ -34,14 +34,55 @@ npm run preview   # preview hasil build → http://localhost:4321
 
 - Sitemap otomatis (`@astrojs/sitemap`) berisi domain final; `robots.txt` sudah menunjuk ke sana.
 - JSON-LD: `AutoRepair` (nama, alamat, koordinat, jam buka 2 spesifikasi, katalog 8 layanan,
-  logo, hasMap, areaServed, sameAs FB/IG) + `FAQPage` (5 pertanyaan umum).
+  logo PNG 512px, hasMap, areaServed, sameAs FB/IG/situs saudari, aggregateRating) +
+  `FAQPage` (4 pertanyaan umum) + per halaman: `Service` & `BreadcrumbList` (/layanan),
+  `Review` (/ulasan), `BlogPosting` + `BreadcrumbList` (artikel blog).
 - OG/Twitter card lengkap untuk kartu share di WhatsApp/FB/Twitter: judul, deskripsi, gambar
   1200x630 (`public/og-image.jpg`, kartu share branded: logo, nama, rating
   Google, nomor aktif, domain), `og:site_name`, `theme-color`.
 - Keyword lokal yang ditarget (dari riset pencarian umum): bengkel mobil bojongsoang,
   cuci mobil bojongsoang, bengkel mobil terdekat, cuci mobil hidrolik bandung, bengkel
-  mobil bandung selatan, ganti oli bojongsoang, service ac mobil, bengkel yang buka hari
-  minggu. Tersebar natural di title, meta, H1/H2, paragraf Tentang, FAQ, dan alt gambar.
+  mobil bandung selatan, ganti oli bojongsoang, service ac mobil, perawatan mobil rutin,
+  bengkel yang buka hari minggu. Tersebar natural di title, meta, H1/H2, paragraf Tentang,
+  FAQ, alt gambar, dan artikel blog.
+
+## Set ikon / favicon (tampilan hasil pencarian Google)
+
+Google menampilkan ikon situs di hasil pencarian dari beberapa sumber. Semua sudah tersedia
+di `public/`:
+
+| File | Fungsi |
+|---|---|
+| `favicon.ico` (16/32/48) | Fallback yang dicari crawler (Google/Bing) |
+| `favicon.svg` | Ikon modern untuk browser yang mendukung |
+| `favicon-32x32.png` | PNG kecil untuk tab browser |
+| `apple-touch-icon.png` (180) | iOS home screen |
+| `icon-192.png` / `icon-512.png` | Web manifest + JSON-LD `logo` (Google minta raster ≥112px) |
+| `site.webmanifest` | Manifest PWA ringan |
+
+Ikon diregenerasi dari `favicon.svg` dengan:
+
+```bash
+node scripts/generate-favicons.mjs
+```
+
+Jalankan ulang hanya bila `favicon.svg` berubah, lalu commit hasilnya.
+
+## Blog
+
+Artikel ada di `src/content/blog/*.md` (satu file = satu artikel, markdown), koleksi
+`blog` didefinisikan di `src/content/config.ts`, dirender oleh `src/pages/blog/[slug].astro`
+dengan daftar di `src/pages/blog/index.astro`. Setiap artikel otomatis mendapat
+schema `BlogPosting` + `BreadcrumbList` dan masuk sitemap.
+
+Menambah artikel: salin salah satu file, ganti frontmatter (`title`, `description`,
+`pubDate`, `image`, `imageAlt`) dan isi markdown. Foto diambil dari `src/assets/`
+(foto asli bengkel). CTA WhatsApp di bagian bawah artikel memakai template `waLink()`
+dari `src/data/site.ts`; link WA di dalam teks artikel di-encode manual, jaga formatnya
+tetap `https://wa.me/628122022203?text=...`.
+
+Aturan konten: hanya fakta terverifikasi (alamat, jam, layanan, rating dari
+`src/data/site.ts`), tanpa harga, tanpa klaim belum dikonfirmasi client, tanpa em-dash.
 
 ### Setelah deploy (wajib untuk ranking lokal)
 
@@ -67,19 +108,33 @@ src/
 │   ├── Layanan.astro            # Grup A (servis) & Grup B (cuci hidrolik)
 │   ├── TanyaHargaCTA.astro      # pengganti pricelist — TANPA angka harga
 │   ├── CaraBooking.astro
-│   ├── Testimoni.astro          # ⚠️ placeholder
+│   ├── Testimoni.astro          # slider ulasan asli Google Maps
 │   ├── Galeri.astro
 │   ├── KontakLokasi.astro       # kartu kontak + embed Google Maps lazy
 │   ├── CtaBand.astro
 │   ├── Footer.astro
 │   └── WhatsAppFloat.astro
+├── content/
+│   ├── config.ts                # skema koleksi blog
+│   └── blog/*.md                # artikel blog (satu file = satu artikel)
 ├── data/
 │   ├── site.ts                  # SATU-SATUNYA tempat data bisnis (WA, alamat, jam, sosmed)
-│   ├── layanan.ts               # 9 layanan + trust strip + cara booking
-│   └── testimoni.ts             # ⚠️ placeholder — hapus section jika tak ada data asli
+│   ├── layanan.ts               # 8 layanan + trust strip + cara booking
+│   └── testimoni.ts             # 4 ulasan asli Google Maps
+├── assets/                      # foto asli bengkel (dipakai astro:assets)
 ├── styles/tokens.css            # design tokens (warna, spacing, tipografi, tombol)
-└── pages/index.astro            # komposisi semua section
-public/                          # robots.txt, favicon.svg, og-image.jpg
+└── pages/
+    ├── index.astro              # komposisi semua section (beranda)
+    ├── layanan.astro            # halaman layanan + schema Service
+    ├── tentang.astro            # halaman tentang
+    ├── ulasan.astro             # halaman ulasan + schema Review
+    ├── 404.astro                # halaman tidak ditemukan (dilayani Vercel otomatis)
+    └── blog/
+        ├── index.astro          # daftar artikel
+        └── [slug].astro         # render artikel + schema BlogPosting
+public/                          # robots.txt, favicon set, site.webmanifest, og-image.jpg
+scripts/
+└── generate-favicons.mjs       # rasterisasi favicon.svg → ico/png set
 ```
 
 ## Sumber data (per 31 Okt 2026)
