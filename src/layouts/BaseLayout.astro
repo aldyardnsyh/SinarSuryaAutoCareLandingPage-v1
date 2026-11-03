@@ -59,8 +59,9 @@ const jsonLd = {
     addressCountry: 'ID',
   },
   geo: { '@type': 'GeoCoordinates', latitude: SITE.geo.lat, longitude: SITE.geo.lng },
-  logo: `${SITE.domain}/favicon.svg`,
-  image: [ogImage],
+  // Panduan logo Google: raster minimal 112x112px, bukan SVG.
+  logo: `${SITE.domain}/icon-512.png`,
+  image: [ogImage, `${SITE.domain}/icon-512.png`],
   hasMap: SITE.gmapsShare,
   areaServed: ['Bojongsoang', 'Dayeuhkolot', 'Baleendah', 'Buahbatu', 'Bandung Selatan', 'Kabupaten Bandung'],
   openingHoursSpecification: [
@@ -147,8 +148,13 @@ const jsonLd = {
     <meta name="geo.position" content={`${SITE.geo.lat};${SITE.geo.lng}`} />
     <meta name="ICBM" content={`${SITE.geo.lat}, ${SITE.geo.lng}`} />
 
+    <!-- Ikon: ICO sebagai fallback yang dicari crawler (Google/Bing),
+         SVG + PNG untuk browser modern, PNG 180px untuk iOS home screen. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/og-image.jpg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Material Symbols (ikon saja, satu font ringan) -->
